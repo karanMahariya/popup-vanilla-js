@@ -1,0 +1,270 @@
+
+const htmlContent = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Big Sale Popup Form</title>
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+</head>
+<body>
+  
+<div class="popup-main" id="popupMainBox">
+<div class="popup">
+  <span class="close" id="popupClose">&times;</span>
+  
+  <div class="form-box">
+  <h3>GET $10 OFF WHEN YOU SIGN UP FOR</h3>
+  <h2>SAVINGS, NEWS, UPDATES AND MORE</h2>
+
+  <form id="popupForm">
+    <input type="text" id="name" placeholder="your name">
+    <input type="email" id="email" placeholder="email address">
+    <label><input type="checkbox" id="subscribe" checked> Check this box to receive monthly newsletter.</label>
+    <button type="submit">SIGN UP</button>
+    <a class="form-bottom-link" href="#">PRIVACY POLICY</a>
+  </form>
+  </div>
+  
+  <div class="right-image">
+    <img src="https://useruploads.visualwebsiteoptimizer.com/useruploads/176372/images/339bf06d957c32e3b61f79b563f229af_offerx500.png" alt="Image" />
+</div>
+</div>
+</div>
+  
+</body>
+</html>`;
+
+const doc = document.implementation.createHTMLDocument('Big Sale Popup Form');
+doc.documentElement.innerHTML = htmlContent;
+document.body.appendChild(doc.documentElement);
+
+//  CSS 
+const styles = `
+body{
+  font-family: "Mulish", sans-serif;
+}
+h2,h3{
+  font-family: "Mulish", sans-serif;
+}
+.popup-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+.popup {
+background-color: #fdd503;
+padding: 20px;
+border-radius: 5px;
+width: 100%;
+max-width: 650px;
+position: relative;
+display: flex;
+align-items: center;
+}
+.right-image {
+  width: 40%;
+  text-align: center;
+  margin: 20px auto;
+}
+.right-image img {
+  width: 100%;
+  height: auto;
+  transition: transform .2s;
+  transition: all 0.5s ease;
+}
+.right-image img:hover {
+  transform: scale(1.1);
+}
+.form-box {
+  flex: 1;
+}
+.form-box h2 {
+  margin-top: 0;
+}
+.form-box form {
+  display: flex;
+  flex-direction: column;
+}
+.form-box input, .form-box label {
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 2px;
+}
+.form-box label {
+  font-weight: normal;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: stretch;
+  flex-wrap: nowrap;
+  margin-bottom: 15px;
+  color: #000;
+}
+.close {
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 35px;
+  font-weight: 700;
+  color: #000;
+  line-height: 35px;
+  transition: transform .7s ease-in-out;
+}
+.close:hover {
+  transform: rotate(360deg);
+}
+.form-box h3, .form-box h2, a.form-bottom-link {
+  text-align: center;
+  color: #000;
+}
+.form-box h3 {
+  font-size: 17px;
+  font-weight: 900;
+  margin: auto;
+  line-height: 25px;
+}
+.form-box h2 {
+  font-size: 17px;
+  line-height: 25px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+input[type='checkbox'] {
+  margin: 2px 5px 2px 2px;
+}
+.form-box input#name, .form-box input#email {
+  height: 50px;
+  padding-left: 15px;
+  padding-right: 5px;
+  outline: none;
+  color: #000;
+}
+.form-box button {
+  color: #FFF;
+  background: #000;
+  padding: 20px;
+  margin-bottom: 10px;
+  border: none;
+  cursor: pointer;
+}
+a.form-bottom-link {
+  font-size: 13px;
+  color: #000;
+}
+.form-box button:hover {
+  transition: all 0.5s ease;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}
+@media only screen and (max-width: 768px) {
+.right-image {
+  display: none;
+}
+.popup {
+  max-width: 460px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.close {
+  top: -2px;
+  right: 10px;
+  font-size: 25px;
+}
+.form-box h3, .form-box h2 {
+  font-size: 15px;
+}
+}`;
+
+const styleElement = document.createElement('style');
+styleElement.textContent = styles;
+document.head.appendChild(styleElement);
+
+// js code
+(function() {
+  const popupMainBox = document.getElementById('popupMainBox');
+  const popupClose = document.getElementById('popupClose');
+  const popupForm = document.getElementById('popupForm');
+
+  function openPopup() {
+        if (!getCookie('popupClosed') && !getCookie('popupSubmitted')) {
+        popupMainBox.style.display = 'flex';
+    } else {
+        if (doc && doc.documentElement) {
+            doc.documentElement.innerHTML = '';
+        }
+        if (styleElement && styleElement.parentNode) {
+            styleElement.parentNode.removeChild(styleElement);
+        }
+    }
+  }
+
+  function popupCloseHandler() {
+    popupMainBox.style.display = 'none';
+    setCookie('popupClosed', 'true', 1); // cookie 1 day
+  }
+
+  function submitFormHandler(event) {
+    event.preventDefault();
+    
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const subscribeCheckbox = document.getElementById('subscribe');
+  
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const subscribe = subscribeCheckbox.checked;
+  
+    // Validate all field
+    if (name === '') {
+      alert('Please enter your name.');
+      nameInput.focus();
+      return;
+    }
+  
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert('Please enter a valid email address.');
+      emailInput.focus();
+      return;
+    }
+  
+    if (!subscribe) {
+      alert('Please subscribe to our newsletter.');
+      return;
+    }
+  
+    setCookie('popupSubmitted', 'true', 1); // submit cookie in 1 day
+    popupMainBox.style.display = 'none';
+  }
+
+  popupClose.addEventListener('click', popupCloseHandler);
+  popupForm.addEventListener('submit', submitFormHandler);
+
+  openPopup();
+
+  function setCookie(name, value, days) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + date.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+  }
+
+  function getCookie(name) {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.startsWith(name + '=')) {
+        return cookie.substring(name.length + 1);
+      }
+    }
+    return null;
+  }
+})();
